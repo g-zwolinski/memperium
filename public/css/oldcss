@@ -1,0 +1,203 @@
+
+@media screen and (min-width: 1000px) { 
+	.demotywatory{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;
+		background-color: #403b34;
+		margin:5px 5px 5px 5px;
+	}
+
+	.kwejk{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;
+		background-color: #1b487e;
+		margin:5px 5px 5px 5px;
+	}
+
+	.faktopedia{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;
+		background-color: #ffcc00;
+		margin:5px 5px 5px 5px;
+	}
+
+	.sadistic{
+		color: white;
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: #292929;
+		margin:5px 5px 5px 5px;
+	}
+
+	.bezuzyteczna{
+		color: white;
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: black;
+		margin:5px 5px 5px 5px;
+	}
+
+	.jbzd{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: #333;
+		margin:5px 5px 5px 5px;
+	}
+
+	.chamsko{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: #333;
+		margin:5px 5px 5px 5px;
+	}
+
+	.temysli{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: black;
+		margin:5px 5px 5px 5px;
+	}
+
+	.cytaty{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+
+		color:black;
+		background-color: #f7f7f9;
+		margin:5px 5px 5px 5px;
+	}
+
+	.joemonster{
+		text-align: center;
+		width: 80%;
+		display: inline-block;
+		overflow: hidden;    
+		background-color: #e60000;
+		margin:5px 5px 5px 5px;
+	}
+}
+@media screen and (max-width: 1000px) { 
+	.content{
+		max-width: 100%;
+		
+	}
+	.demotywatory{
+		/*-webkit-transform: scale(.5);*/
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		overflow: auto;
+		background-color: #403b34;
+		margin:5px 5px 5px 5px;
+	}
+
+	.kwejk{
+		/*-webkit-transform: scale(.5);*/
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		overflow: auto;
+		background-color: #1b487e;
+		margin:5px 5px 5px 5px;
+	}
+
+	.faktopedia{
+		/*-webkit-transform: scale(.5);*/
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		overflow: auto;
+		background-color: #ffcc00;
+		margin:5px 5px 5px 5px;
+	}
+
+	.sadistic{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;    
+		background-color: #292929;
+		margin:5px 5px 5px 5px;
+	}
+
+	.bezuzyteczna{
+		color: white;
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;   
+		background-color: black;
+		margin:5px 5px 5px 5px;
+	}
+
+	.jbzd{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;       
+		background-color: #333;
+		margin:5px 5px 5px 5px;
+	}
+
+	.chamsko{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;      
+		background-color: #333;
+		margin:5px 5px 5px 5px;
+	}
+
+	.temysli{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;       
+		background-color: black;
+		margin:5px 5px 5px 5px;
+	}
+
+	.cytaty{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;      
+		color:black;
+		background-color: #f7f7f9;
+		margin:5px 5px 5px 5px;
+	}
+
+	.joemonster{
+		text-align: center;
+		/*width: 100%;*/
+		display: inline-block;
+		/*-webkit-transform: scale(.5);*/
+		overflow: auto;      
+		background-color: #e60000;
+		margin:5px 5px 5px 5px;
+	}
+}

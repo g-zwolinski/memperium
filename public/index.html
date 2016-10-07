@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jwplayer.js"></script>
+	<script type="text/javascript" src="/js/client.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<meta http-equiv="Content-type" content="text/html; charset=iso-8859-2">
+	<script language="javascript" type="text/javascript">
+		var czyJuzUstawiono = new Boolean(false);
+		var adresDoZmiany;
+		var czyZmieniacAdres = "false";
+		var adresSerwera = "http://128.199.61.130/";
+		var portale = ["demotywatory","kwejk","sadistic","faktopedia","bezuzyteczna","jbzd","chamsko","komixxy","mistrzowie","joemonster"];
+		var iloscObslugiwanychSerwisow = 10;
+		var urlToGo=getCookie("urlToGo");
+		if (urlToGo==null) {urlToGo="";}
+		if (urlToGo!="") {urlToGo=urlToGo;}
+		//console.log("urlToGo", urlToGo);
+
+		function znajdzLinkPoIndeksie(indeks){
+		  $.getJSON('./content/content.js', function(data) { 
+		    var wrzutsTMP=data;
+
+		    var leng  = Object.keys(data).length-1;
+		    var link = unescape(indeks);
+		  //  console.log(link, leng);
+
+		    for (var key=0;key<=leng;key++){
+		    	if(wrzutsTMP[key].link==link){
+		    	//	console.log(wrzutsTMP[key]);
+		    		changeIframeSrc(wrzutsTMP[key].link);
+		    	}else{
+		    		//if(key==leng){
+		    			//changeIframeSrc("http://memperium.pl/error.html");
+		    		//}
+		    	}
+		    	
+		    }
+
+		    /*
+		    console.log(indeks)
+		    if(indeks>=0&&indeks<=leng){
+		      //return wrzutsTMP[indeks].link;
+		      changeIframeSrc(wrzutsTMP[indeks].link);
+		    }else{
+		      console.log("error");
+		      changeIframeSrc("http://memperium.pl/error.html");
+		    }
+		    */
+		  }); 
+		  
+		}
+
+
+		function getUrlFromUrl(){
+			var GET = {};
+			var query = window.location.search.substring(1).split("&");
+			for (var i = 0, max = query.length; i < max; i++){
+			    if (query[i] === "") // check for trailing & with no param
+			      continue;
+
+			    var param = query[i].split("=");
+			    GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
+			    //console.log(param);
+
+			    if(param!=null){
+			      czyZmieniacAdres="true";
+			      adresDoZmiany=param[1];
+			      //console.log(czyZmieniacAdres,adresDoZmiany);
+			      document.cookie="urlToGo="+adresDoZmiany+";expires=Wed, 18 Dec 2023 12:00:00 GMT";
+			      window.location.href = "http://memperium.pl/";
+			    }
+			}
+		}
+
+		if(urlToGo==null||urlToGo==""){
+			getUrlFromUrl();
+		}else{
+			//idz
+			adresDoZmiany="";
+
+				
+			//console.log(znajdzLinkPoIndeksie(urlToGo));
+			document.cookie="urlToGo="+adresDoZmiany+";expires=Wed, 18 Dec 2023 12:00:00 GMT";
+			setTimeout(function() {
+
+
+				//console.log(urlToGo,znajdzLinkPoIndeksie(urlToGo));
+
+				znajdzLinkPoIndeksie(urlToGo);
+				//changeIframeSrc();
+
+			}, 200);
+			
+			
+			//usun z cookie
+		}
+		
+		//pobierz CookieStronaPrzekierowana, jezeli cookieStronaPrzekierowana == null, pobierz parametry
+		//jezeli parametry nie sa null, zaladuj strone i usun z cookie
+
+
+
+
+
+		for (var key=0; key<iloscObslugiwanychSerwisow;key++){
+		   // console.log(czyPokazywac[key]);
+		  czyPokazywac[portale[key]]=getCookie(portale[key]);
+		  if (czyPokazywac[portale[key]]==null) {czyPokazywac[portale[key]]="true";}
+		  if (czyPokazywac[portale[key]]!="") {czyPokazywac[portale[key]]=czyPokazywac[portale[key]];}
+		  if (czyPokazywac[portale[key]]=="") {czyPokazywac[portale[key]]="true";}
+		    //console.log(czyPokazywac[key]);
+		}
+		var scrolPos=getCookie("scrollPosition");
+		if (scrolPos==null) {scrolPos="";}
+		if (scrolPos!="") {scrolPos=scrolPos;}
+		//console.log("onload", scrolPos);
+
+		var czyByloWidacIframe=getCookie("czyByloWidacIframe");
+		if (czyByloWidacIframe==null) {czyByloWidacIframe="false";}
+		if (czyByloWidacIframe!="") {czyByloWidacIframe=czyByloWidacIframe;}
+		//console.log("onload", czyByloWidacIframe);
+
+
+		function recurentScroll(pos){
+			//console.log("recurentScroll");
+			var doc = document.documentElement;
+		    var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+			if(top<pos){
+			    $("body, html").animate({scrollTop :pos}, '500',function(){
+					if(top<pos){
+			    		recurentScroll(pos);
+			    	}else{
+			    		czyJuzUstawiono = true;	
+			    		//console.log("Ustawiono");
+			    	}
+						        
+				});
+			}else{
+				czyJuzUstawiono = true;
+			   // console.log("Ustawiono");
+			}
+		}
+
+	  function autoScroll() {
+		    //var div = document.getElementById("mydiv");
+		    //div.style.display = '';
+
+
+		    //sprawdz czy ostatnio byl wsywietlany iframe, jak tak to scrolluj do scrolPos, jak nie to do 0
+
+		    //var top = div.offsetTop;
+		    //if(window.scrollTop != top) 
+		        //window.scrollTo(0, scrolPos);
+		        //czyJuzUstawiono = true;
+
+		    if(czyJuzUstawiono==false){
+		    	if(czyByloWidacIframe=="true"){
+
+
+		    		//zapisz do temp scrolpos, do while dopki nie jest w pozycji
+		    		//co do sprawdzpozycje
+		    		
+		    		var scrolPosTemp = scrolPos;
+		    		
+			    			
+			    	recurentScroll(scrolPosTemp);
+			    	/*	
+		    		if(scrolPosTemp!=0){
+			    		console.log(scrolPosTemp);
+			    		recurentScroll(scrolPosTemp);
+			    		//czyJuzUstawiono = true;
+		    		}else{
+
+		    			
+		    			$("body, html").animate({scrollTop :0}, '500',function(){
+					        //DO SOMETHING AFTER SCROLL ANIMATION COMPLETED
+					        alert('Hello');
+					        czyJuzUstawiono = true;
+					        console.log("Ustawiono");
+					    });
+
+		    		}
+		    		*/
+		    		
+		    	}
+		    	if(czyByloWidacIframe=="false"){
+		    		$("body, html").animate({scrollTop :0}, '500',function(){
+				        //DO SOMETHING AFTER SCROLL ANIMATION COMPLETED
+				        //alert('Hello');
+				        czyJuzUstawiono = true;
+				      //  console.log("Ustawiono");
+				    });
+		    	}
+
+		    }
+
+		}
+		function loadAutoScroll() {
+		    autoScroll();
+		    window.onload = null;
+		    return false;
+		}
+		function scrollAutoScroll() {
+		    autoScroll();
+		    window.setTimeout(function(){ window.onscroll = null; }, 100);
+		    return false;
+		}
+		window.onload = loadAutoScroll;
+		//window.onscroll = scrollAutoScroll;
+
+
+
+
+	  function resizeIframe(obj) {
+	  	/*
+	    var heightToSet = obj.contentWindow.document.body.scrollHeight + 'px';
+	    console.log(heightToSet);
+	    document.getElementById('iframe').style.height = 
+    	document.getElementById('iframe').contentWindow.document.body.offsetHeight + 'px';
+	    obj.height = (heightToSet);
+		var doc=_("iframe").contentWindow.document;
+*/
+		//If you are doing any dynamic writing do that first
+		//doc.open();
+		//doc.write(myData);
+		//doc.close();
+
+		//Then append child
+		//doc.head.appendChild(cssLink);
+		//doc.head.appendChild(jwplayer);
+		//doc.head.appendChild(clientIframe);
+		//doc.head.appendChild(jquery);
+	  }
+
+	</script>
+
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Memperium</title>
+
+	    <!-- You can use open graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+	<meta property="og:url"           content="http://memperium.pl/" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="Memperium.pl" />
+	<meta property="og:description"   content="Memy z najpopularniejszych stron w jednym miejsciu!" />
+	<meta property="og:image"         content="http://memperium.pl/img.jpg" />
+	<meta property="fb:app_id" 		  content="1537467606567642"/>
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-71801033-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+
+	<script src="dist/sweetalert.min.js"></script> 
+	<link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+	<!-- include the core styles -->
+	<!-- include a theme, can be included into the core instead of 2 separate files -->
+	<link rel="stylesheet" href="css/alertify.default.css" />
+	<script src="js/alertify.min.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      console.log("notka o zalogowaniu do FB");
+      document.getElementById('status').innerHTML = 'Please log ' +'into this app.';
+      FB.login();
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      console.log("notka o zalogowaniu do FB");
+       document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+       FB.login();
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1537467606567642',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+
+	/*
+	  FB.getLoginStatus(function(response) {
+		  statusChangeCallback(response);
+		});
+	*/
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+	function testAPI() {
+	    console.log('Welcome!  Fetching your information.... ');
+	    FB.api('/me', function(response) {
+	      console.log('Successful login for: ' + response.name);
+	      document.getElementById('status').innerHTML =
+	        'Thanks for logging in, ' + response.name + '!';
+	    });
+
+
+	}
+</script>
+
+<div id="demo_top_wrapper">
+
+    <!-- a header with a logo just to have some content before the menu 
+    <div id="demo_top">
+        <div class="demo_container">
+            <div id="my_logo"><h1>F O A</h1></div>
+        </div>
+    </div>
+ -->
+    <!-- this will be our navigation menu -->
+    <div id="sticky_navigation_wrapper">
+        <div id="sticky_navigation">
+            <div class="demo_container">
+                <ul>
+
+               		<li><a href="http://memperium.pl/" onclick=""><span id="menuTitle">Memperium.pl</span></a></li>
+
+
+               		<li><a val="naviPortal" id="showHideButton" onclick="showHidePortal()">...</a></li>
+
+               		
+               		<li><a id="dodajWpis"  val="navi" onclick="return FB.getLoginStatus(function(response) {
+	  					statusChangeCallback(response);
+					});">+</a></li>
+               		
+               		<li><a id="navigatorL"href="#" val="navi" onclick="goUpList()"><</a></li>
+
+               		
+               		<li><a id="navigatorR"href="#"  val="navi" onclick="goDownList()">></a></li>
+      
+               		
+
+                    
+                    
+                   <!-- <li><input type="text" id="nrStrony" value="0"><div onclick="goToPage()">IDZ DO STRONY</div></li>-->
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+    <div id="sticky_navigation_wrapper2">
+                <ul id="portalMenu">
+                
+		            <li><a  class="selected" id="demotywatorym" val="demotywatory" onclick="selectePortal(this);">Demotywatory.pl</a></li>
+		            <li><a  class="selected" val="kwejk" id="kwejkm" onclick="selectePortal(this);">Kwejk.pl</a></li>
+		            <li><a  class="selected" val="sadistic" id="sadisticm" onclick="selectePortal(this);">Sadistic.pl</a></li>
+		            <li><a  class="selected" val="faktopedia" id="faktopediam" onclick="selectePortal(this);">Faktopedia.pl</a></li>
+
+
+
+		            <li><a class="selected" val="bezuzyteczna" id="bezuzytecznam" onclick="selectePortal(this);">Bezuzyteczna.pl</a></li>
+		            <li><a  class="selected" val="jbzd" id="jbzdm" onclick="selectePortal(this);">Jbzd.pl</a></li>
+		            <li><a  class="selected" val="chamsko" id="chamskom" onclick="selectePortal(this);">Chamsko.pl</a></li>
+		            <li><a  class="selected" val="komixxy" id="komixxym" onclick="selectePortal(this);">Komixxy.pl</a></li>
+		            <li><a  class="selected" val="mistrzowie" id="mistrzowiem" onclick="selectePortal(this);">Mistrzowie.org</a></li>
+		            <li><a  class="selected" val="joemonster" id="joemonsterm" onclick="selectePortal(this);">Joemonster.org</a></li>
+
+                </ul>
+                 <div style="float:left;margin: 5px 5px 5px 5px;";
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-href="http://memperium.pl/" 
+  data-layout="button_count" 
+  data-show-faces="true">
+</div>
+    </div>
+</div>
+<!-- iframe z wczytanym przekierowaniem -->
+
+<!-- div z wrzutami-->
+
+<div id="wrzuts">
+
+
+
+
+</div>
+<div id ="iframeWrapper" style="width: 99vw; overflow-x: hidden;" >
+<iframe style="width: 99vw; overflow-x: hidden;" id="iframe" src="" frameborder="0" scrolling="no" ></iframe>
+</div>
+<!--
+    <div id='include-from-outside'></div>
+    <script type='text/javascript'>
+      $('#include-from-outside').load('/content/content0.html');
+    </script> 
+-->
+<div id="status">
+</div>
+</body>
+</html>
